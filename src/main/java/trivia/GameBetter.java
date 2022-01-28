@@ -6,7 +6,7 @@ import java.util.ArrayList;
 public class GameBetter implements IGame {
    ArrayList players = new ArrayList();
    PlayerInGame[] gamePlayers = new PlayerInGame[6];
-   int currentPlayer = 0;
+   GameControl gameControl = new GameControl();
    QuestionsDecks questionsDecks = new QuestionsDecks();
    Board board = new Board();
    
@@ -39,33 +39,33 @@ public class GameBetter implements IGame {
    public void roll(int roll) {
       
       
-      System.out.println(players.get(currentPlayer) + " is the current player");
+      System.out.println(players.get(gameControl.currentPlayerIndex) + " is the current player");
       System.out.println("They have rolled a " + roll);
 
-      if (gamePlayers[currentPlayer].isInPenaltyBox) {
+      if (gamePlayers[gameControl.currentPlayerIndex].isInPenaltyBox) {
          if (roll % 2 != 0) {
             isGettingOutOfPenaltyBox = true;
 
-            System.out.println(players.get(currentPlayer) + " is getting out of the penalty box");
+            System.out.println(players.get(gameControl.currentPlayerIndex) + " is getting out of the penalty box");
 
-            gamePlayers[currentPlayer].moveFor(roll);
+            gamePlayers[gameControl.currentPlayerIndex].moveFor(roll);
 
-            System.out.println(players.get(currentPlayer)
+            System.out.println(players.get(gameControl.currentPlayerIndex)
                                + "'s new location is "
-                               + gamePlayers[currentPlayer].position);
+                               + gamePlayers[gameControl.currentPlayerIndex].position);
             System.out.println("The category is " + currentCategory());
             askQuestion();
          } else {
-            System.out.println(players.get(currentPlayer) + " is not getting out of the penalty box");
+            System.out.println(players.get(gameControl.currentPlayerIndex) + " is not getting out of the penalty box");
             isGettingOutOfPenaltyBox = false;
          }
 
       } else {
-         gamePlayers[currentPlayer].moveFor(roll);
+         gamePlayers[gameControl.currentPlayerIndex].moveFor(roll);
 
-         System.out.println(players.get(currentPlayer)
+         System.out.println(players.get(gameControl.currentPlayerIndex)
                             + "'s new location is "
-                            + gamePlayers[currentPlayer].position);
+                            + gamePlayers[gameControl.currentPlayerIndex].position);
          System.out.println("The category is " + currentCategory());
          askQuestion();
       }
@@ -77,28 +77,28 @@ public class GameBetter implements IGame {
    }
 
    private String currentCategory() {
-      int placeOnBoard = gamePlayers[currentPlayer].position;
+      int placeOnBoard = gamePlayers[gameControl.currentPlayerIndex].position;
       return board.getCategoryInPlace(placeOnBoard);
    }
 
 
 
    public boolean wasCorrectlyAnswered() {
-      if (gamePlayers[currentPlayer].isInPenaltyBox) {
+      if (gamePlayers[gameControl.currentPlayerIndex].isInPenaltyBox) {
          if (isGettingOutOfPenaltyBox) {
             System.out.println("Answer was correct!!!!");
-            gamePlayers[currentPlayer].purses++;
-            System.out.println(players.get(currentPlayer)
+            gamePlayers[gameControl.currentPlayerIndex].purses++;
+            System.out.println(players.get(gameControl.currentPlayerIndex)
                                + " now has "
-                               + gamePlayers[currentPlayer].purses
+                               + gamePlayers[gameControl.currentPlayerIndex].purses
                                + " Gold Coins.");
 
             boolean winner = didPlayerWin();
-            handDiceToTheNextPlayer();
+            gameControl.handDiceToTheNextPlayer(players.size());
 
             return winner;
          } else {
-            handDiceToTheNextPlayer();
+            gameControl.handDiceToTheNextPlayer(players.size());
             return true;
          }
 
@@ -106,14 +106,14 @@ public class GameBetter implements IGame {
       } else {
 
          System.out.println("Answer was corrent!!!!");
-         gamePlayers[currentPlayer].purses++;
-         System.out.println(players.get(currentPlayer)
+         gamePlayers[gameControl.currentPlayerIndex].purses++;
+         System.out.println(players.get(gameControl.currentPlayerIndex)
                             + " now has "
-                            + gamePlayers[currentPlayer].purses
+                            + gamePlayers[gameControl.currentPlayerIndex].purses
                             + " Gold Coins.");
 
          boolean winner = didPlayerWin();
-         handDiceToTheNextPlayer();
+         gameControl.handDiceToTheNextPlayer(players.size());
 
          return winner;
       }
@@ -121,33 +121,16 @@ public class GameBetter implements IGame {
 
    public boolean wrongAnswer() {
       System.out.println("Question was incorrectly answered");
-      System.out.println(players.get(currentPlayer) + " was sent to the penalty box");
-      gamePlayers[currentPlayer].isInPenaltyBox = true;
+      System.out.println(players.get(gameControl.currentPlayerIndex) + " was sent to the penalty box");
+      gamePlayers[gameControl.currentPlayerIndex].isInPenaltyBox = true;
 
-      handDiceToTheNextPlayer();
+      gameControl.handDiceToTheNextPlayer(players.size());
       return true;
    }
 
-   private void handDiceToTheNextPlayer() {
-      nextPlayer();
-      if (isLastPlayer()) {
-         firstPlayer();
-      }
-   }
 
-   private void firstPlayer() {
-      currentPlayer = 0;
-   }
-
-   private int nextPlayer() {
-      return currentPlayer++;
-   }
-
-   private boolean isLastPlayer() {
-      return currentPlayer == players.size();
-   }
    
    private boolean didPlayerWin() {
-      return !(gamePlayers[currentPlayer].purses == 6);
+      return !(gamePlayers[gameControl.currentPlayerIndex].purses == 6);
    }
 }
