@@ -33,8 +33,6 @@ public class GameBetter implements IGame {
    }
 
    public void roll(int roll) {
-      
-      
       System.out.println(gameControl.getCurrentPlayer() + " is the current player");
       System.out.println("They have rolled a " + roll);
 
@@ -79,49 +77,26 @@ public class GameBetter implements IGame {
       return board.getCategoryInPlace(placeOnBoard);
    }
 
-
-
    public boolean wasCorrectlyAnswered() {
-      if (gameControl.isCurrentUserInPenaltyBox()) {
-         if (isGettingOutOfPenaltyBox) {
-            System.out.println("Answer was correct!!!!");
-            gameControl.addPursesToCurrentUser();
-            System.out.println(gameControl.getCurrentPlayer()
-                               + " now has "
-                               + gameControl.getCurrentUserPurses()
-                               + " Gold Coins.");
-
-            boolean winner = gameControl.didPlayerWin();
-            gameControl.handDiceToTheNextPlayer(gameControl.numberOfPlayers());
-
-            return winner;
-         } else {
-            gameControl.handDiceToTheNextPlayer(gameControl.numberOfPlayers());
-            return true;
-         }
-
-
-      } else {
-
-         System.out.println("Answer was corrent!!!!");
+      boolean winner = true;
+      if (!gameControl.isCurrentUserInPenaltyBox() || isGettingOutOfPenaltyBox) {
+         System.out.println("Answer was correct!!!!");
          gameControl.addPursesToCurrentUser();
          System.out.println(gameControl.getCurrentPlayer()
                             + " now has "
                             + gameControl.getCurrentUserPurses()
                             + " Gold Coins.");
 
-         boolean winner = gameControl.didPlayerWin();
-         gameControl.handDiceToTheNextPlayer(gameControl.numberOfPlayers());
-
-         return winner;
+         winner = gameControl.didPlayerWin();
       }
+      gameControl.handDiceToTheNextPlayer(gameControl.numberOfPlayers());
+      return winner;
    }
 
    public boolean wrongAnswer() {
       System.out.println("Question was incorrectly answered");
       System.out.println(gameControl.getCurrentPlayer() + " was sent to the penalty box");
       gameControl.sendCurrentUserToPenaltyBox();
-
       gameControl.handDiceToTheNextPlayer(gameControl.numberOfPlayers());
       return true;
    }
