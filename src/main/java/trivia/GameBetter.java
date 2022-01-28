@@ -36,27 +36,15 @@ public class GameBetter implements IGame {
       System.out.println(gameControl.getCurrentPlayer() + " is the current player");
       System.out.println("They have rolled a " + roll);
 
-      if (gameControl.isCurrentUserInPenaltyBox()) {
-         if (roll % 2 != 0) {
+      if (gameControl.isCurrentUserInPenaltyBox() && roll % 2 != 0) {
             isGettingOutOfPenaltyBox = true;
-
             System.out.println(gameControl.getCurrentPlayer() + " is getting out of the penalty box");
-
-
-            gameControl.moveCurrentUserFor(roll);
-
-
-            System.out.println(gameControl.getCurrentPlayer()
-                               + "'s new location is "
-                               + gameControl.getCurrentUserPosition());
-            System.out.println("The category is " + currentCategory());
-            askQuestion();
-         } else {
+         } else if (gameControl.isCurrentUserInPenaltyBox()) {
             System.out.println(gameControl.getCurrentPlayer() + " is not getting out of the penalty box");
             isGettingOutOfPenaltyBox = false;
          }
 
-      } else {
+      if (!gameControl.isCurrentUserInPenaltyBox() || isGettingOutOfPenaltyBox){
          gameControl.moveCurrentUserFor(roll);
 
          System.out.println(gameControl.getCurrentPlayer()
