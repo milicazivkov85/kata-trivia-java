@@ -25,7 +25,8 @@ public class GameBetter implements IGame {
    }
 
    public boolean add(String playerName) {
-      players.add(playerName);
+      Player player = new Player(playerName);
+      players.add(player);
       places[howManyPlayers()] = 0;
       purses[howManyPlayers()] = 0;
       inPenaltyBox[howManyPlayers()] = false;
