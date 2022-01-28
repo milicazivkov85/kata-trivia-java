@@ -7,7 +7,6 @@ public class GameBetter implements IGame {
    ArrayList players = new ArrayList();
    PlayerInGame[] gamePlayers = new PlayerInGame[6];
    int currentPlayer = 0;
-   boolean[] inPenaltyBox = new boolean[6];
    QuestionsDecks questionsDecks = new QuestionsDecks();
    Board board = new Board();
    
@@ -27,7 +26,6 @@ public class GameBetter implements IGame {
       Player player = new Player(playerName);
       players.add(player);
       gamePlayers[howManyPlayers()-1] = new PlayerInGame();
-      inPenaltyBox[howManyPlayers()] = false;
 
       System.out.println(playerName + " was added");
       System.out.println("They are player number " + players.size());
@@ -44,7 +42,7 @@ public class GameBetter implements IGame {
       System.out.println(players.get(currentPlayer) + " is the current player");
       System.out.println("They have rolled a " + roll);
 
-      if (inPenaltyBox[currentPlayer]) {
+      if (gamePlayers[currentPlayer].isInPenaltyBox) {
          if (roll % 2 != 0) {
             isGettingOutOfPenaltyBox = true;
 
@@ -86,7 +84,7 @@ public class GameBetter implements IGame {
 
 
    public boolean wasCorrectlyAnswered() {
-      if (inPenaltyBox[currentPlayer]) {
+      if (gamePlayers[currentPlayer].isInPenaltyBox) {
          if (isGettingOutOfPenaltyBox) {
             System.out.println("Answer was correct!!!!");
             gamePlayers[currentPlayer].purses++;
@@ -124,7 +122,7 @@ public class GameBetter implements IGame {
    public boolean wrongAnswer() {
       System.out.println("Question was incorrectly answered");
       System.out.println(players.get(currentPlayer) + " was sent to the penalty box");
-      inPenaltyBox[currentPlayer] = true;
+      gamePlayers[currentPlayer].isInPenaltyBox = true;
 
       handDiceToTheNextPlayer();
       return true;
