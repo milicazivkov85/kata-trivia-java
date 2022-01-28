@@ -1,7 +1,5 @@
 package trivia;
 
-import java.util.ArrayList;
-
 // REFACTOR ME
 public class GameBetter implements IGame {
    GameControl gameControl = new GameControl();
@@ -19,7 +17,7 @@ public class GameBetter implements IGame {
    }
 
    public boolean add(String playerName) {
-      gameControl.addPlayer(new PlayerInGame(playerName));
+      gameControl.addPlayer(new Player(playerName));
 
       System.out.println(playerName + " was added");
       System.out.println("They are player number " + gameControl.numberOfPlayers());

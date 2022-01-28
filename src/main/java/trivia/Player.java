@@ -1,6 +1,6 @@
 package trivia;
 
-public class PlayerInGame {
+public class Player {
   public int position;
   public int purses;
   public boolean isInPenaltyBox = false;
@@ -8,7 +8,7 @@ public class PlayerInGame {
 
   public String name;
 
-  public PlayerInGame(String name) {
+  public Player(String name) {
     this.name = name;
   }
 

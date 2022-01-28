@@ -1,7 +1,7 @@
 package trivia;
 
 public class GameControl {
-  private PlayerInGame[] gamePlayers = new PlayerInGame[6];
+  private Player[] gamePlayers = new Player[6];
   public int currentPlayerIndex = 0;
   public int gamePlayersIndex = 0;
 
@@ -52,7 +52,7 @@ public class GameControl {
     return !(gamePlayers[currentPlayerIndex].purses == 6);
   }
 
-  public void addPlayer(PlayerInGame playerInGame) {
+  public void addPlayer(Player playerInGame) {
     gamePlayers[gamePlayersIndex] = playerInGame;
     gamePlayersIndex++;
   }
