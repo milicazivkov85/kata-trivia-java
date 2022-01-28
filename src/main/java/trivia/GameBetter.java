@@ -29,22 +29,17 @@ public class GameBetter implements IGame {
    }
 
    public void roll(int roll) {
-      System.out.println(gameControl.getCurrentPlayer() + " is the current player");
+      gameControl.printCurrentPlayer();
       System.out.println("They have rolled a " + roll);
 
       if (gameControl.isCurrentUserInPenaltyBox() && roll % 2 != 0) {
-            System.out.println(gameControl.getCurrentPlayer() + " is getting out of the penalty box");
             gameControl.letCurrentUserOutFromPenaltyBox();
          } else if (gameControl.isCurrentUserInPenaltyBox()) {
-            System.out.println(gameControl.getCurrentPlayer() + " is not getting out of the penalty box");
+            gameControl.currentUserStaysInPenaltyBox();
          }
 
       if (!gameControl.isCurrentUserInPenaltyBox()){
          gameControl.moveCurrentUserFor(roll);
-
-         System.out.println(gameControl.getCurrentPlayer()
-                            + "'s new location is "
-                            + gameControl.getCurrentUserPosition());
          System.out.println("The category is " + currentCategory());
          askQuestion();
       }
@@ -65,10 +60,6 @@ public class GameBetter implements IGame {
       if (!gameControl.isCurrentUserInPenaltyBox()) {
          System.out.println("Answer was correct!!!!");
          gameControl.addPursesToCurrentUser();
-         System.out.println(gameControl.getCurrentPlayer()
-                            + " now has "
-                            + gameControl.getCurrentUserPurses()
-                            + " Gold Coins.");
 
          winner = gameControl.didPlayerWin();
       }
@@ -78,7 +69,6 @@ public class GameBetter implements IGame {
 
    public boolean wrongAnswer() {
       System.out.println("Question was incorrectly answered");
-      System.out.println(gameControl.getCurrentPlayer() + " was sent to the penalty box");
       gameControl.sendCurrentUserToPenaltyBox();
       gameControl.handDiceToTheNextPlayer(gameControl.numberOfPlayers());
       return true;
