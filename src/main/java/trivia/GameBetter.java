@@ -49,8 +49,8 @@ public class GameBetter implements IGame {
             isGettingOutOfPenaltyBox = true;
 
             System.out.println(players.get(currentPlayer) + " is getting out of the penalty box");
-            gamePlayers[currentPlayer].position = gamePlayers[currentPlayer].position + roll;
-            if (gamePlayers[currentPlayer].position > 11) gamePlayers[currentPlayer].position = gamePlayers[currentPlayer].position - 12;
+
+            gamePlayers[currentPlayer].moveFor(roll);
 
             System.out.println(players.get(currentPlayer)
                                + "'s new location is "
@@ -63,9 +63,7 @@ public class GameBetter implements IGame {
          }
 
       } else {
-
-         gamePlayers[currentPlayer].position = gamePlayers[currentPlayer].position + roll;
-         if (gamePlayers[currentPlayer].position > 11) gamePlayers[currentPlayer].position = gamePlayers[currentPlayer].position - 12;
+         gamePlayers[currentPlayer].moveFor(roll);
 
          System.out.println(players.get(currentPlayer)
                             + "'s new location is "
