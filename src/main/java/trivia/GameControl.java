@@ -64,4 +64,8 @@ public class GameControl {
   public int numberOfPlayers() {
     return gamePlayersIndex;
   }
+
+  public void letCurrentUserOutFromPenaltyBox() {
+    gamePlayers[currentPlayerIndex].isInPenaltyBox = false;
+  }
 }

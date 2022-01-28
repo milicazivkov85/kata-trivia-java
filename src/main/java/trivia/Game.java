@@ -119,6 +119,7 @@ public class Game implements IGame {
          if (isGettingOutOfPenaltyBox) {
             System.out.println("Answer was correct!!!!");
             purses[currentPlayer]++;
+            inPenaltyBox[currentPlayer] = false;
             System.out.println(players.get(currentPlayer)
                                + " now has "
                                + purses[currentPlayer]

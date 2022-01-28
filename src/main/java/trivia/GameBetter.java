@@ -8,8 +8,6 @@ public class GameBetter implements IGame {
    QuestionsDecks questionsDecks = new QuestionsDecks();
    Board board = new Board();
    
-   boolean isGettingOutOfPenaltyBox;
-
    public GameBetter() {
       for (int i = 0; i < 50; i++) {
          questionsDecks.createQuestions(i);
@@ -37,14 +35,13 @@ public class GameBetter implements IGame {
       System.out.println("They have rolled a " + roll);
 
       if (gameControl.isCurrentUserInPenaltyBox() && roll % 2 != 0) {
-            isGettingOutOfPenaltyBox = true;
             System.out.println(gameControl.getCurrentPlayer() + " is getting out of the penalty box");
+            gameControl.letCurrentUserOutFromPenaltyBox();
          } else if (gameControl.isCurrentUserInPenaltyBox()) {
             System.out.println(gameControl.getCurrentPlayer() + " is not getting out of the penalty box");
-            isGettingOutOfPenaltyBox = false;
          }
 
-      if (!gameControl.isCurrentUserInPenaltyBox() || isGettingOutOfPenaltyBox){
+      if (!gameControl.isCurrentUserInPenaltyBox()){
          gameControl.moveCurrentUserFor(roll);
 
          System.out.println(gameControl.getCurrentPlayer()
@@ -67,7 +64,7 @@ public class GameBetter implements IGame {
 
    public boolean wasCorrectlyAnswered() {
       boolean winner = true;
-      if (!gameControl.isCurrentUserInPenaltyBox() || isGettingOutOfPenaltyBox) {
+      if (!gameControl.isCurrentUserInPenaltyBox()) {
          System.out.println("Answer was correct!!!!");
          gameControl.addPursesToCurrentUser();
          System.out.println(gameControl.getCurrentPlayer()
