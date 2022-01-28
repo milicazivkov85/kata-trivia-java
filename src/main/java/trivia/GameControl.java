@@ -25,7 +25,7 @@ public class GameControl {
   }
 
   public boolean isCurrentUserInPenaltyBox() {
-    return gamePlayers[currentPlayerIndex].isInPenaltyBox;
+    return gamePlayers[currentPlayerIndex].isInPenaltyBox();
   }
 
   public void moveCurrentUserFor(int roll) {
@@ -36,11 +36,11 @@ public class GameControl {
   }
 
   public int getCurrentUserPosition() {
-    return gamePlayers[currentPlayerIndex].position;
+    return gamePlayers[currentPlayerIndex].getPosition();
   }
 
   public void addPursesToCurrentUser() {
-    gamePlayers[currentPlayerIndex].purses++;
+    gamePlayers[currentPlayerIndex].incPurses();
     System.out.println(getCurrentPlayer()
             + " now has "
             + getCurrentUserPurses()
@@ -48,16 +48,16 @@ public class GameControl {
   }
 
   public int getCurrentUserPurses() {
-    return gamePlayers[currentPlayerIndex].purses;
+    return gamePlayers[currentPlayerIndex].getPurses();
   }
 
   public void sendCurrentUserToPenaltyBox() {
-    gamePlayers[currentPlayerIndex].isInPenaltyBox = true;
+    gamePlayers[currentPlayerIndex].goToPenaltyBox();
     System.out.println(getCurrentPlayer() + " was sent to the penalty box");
   }
 
   public boolean didPlayerWin() {
-    return !(gamePlayers[currentPlayerIndex].purses == 6);
+    return !(gamePlayers[currentPlayerIndex].getPurses() == 6);
   }
 
   public void addPlayer(Player playerInGame) {
@@ -66,7 +66,7 @@ public class GameControl {
   }
 
   public String getCurrentPlayer() {
-    return gamePlayers[currentPlayerIndex].name;
+    return gamePlayers[currentPlayerIndex].getName();
   }
 
   public int numberOfPlayers() {
@@ -75,7 +75,7 @@ public class GameControl {
 
   public void letCurrentUserOutFromPenaltyBox() {
     System.out.println(getCurrentPlayer() + " is getting out of the penalty box");
-    gamePlayers[currentPlayerIndex].isInPenaltyBox = false;
+    gamePlayers[currentPlayerIndex].leavePenaltyBox();
   }
 
   public void currentUserStaysInPenaltyBox() {
