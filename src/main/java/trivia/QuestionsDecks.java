@@ -16,7 +16,7 @@ public class QuestionsDecks {
      rockQuestions.addLast("Rock Question " + i);
   }
 
-  public void pullQuestion(String currentCategory) {
+  public void pullQuestionInCategory(String currentCategory) {
     if (currentCategory == "Pop")
       System.out.println(popQuestions.removeFirst());
     if (currentCategory == "Science")

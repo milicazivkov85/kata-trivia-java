@@ -2,9 +2,11 @@ package trivia;
 
 // REFACTOR ME
 public class GameBetter implements IGame {
-   GameControl gameControl = new GameControl();
-   QuestionsDecks questionsDecks = new QuestionsDecks();
-   Board board = new Board();
+   public static final int WINNING_COINS = 6;
+   private PlayersControl players = new PlayersControl();
+   private QuestionsDecks questionsDecks = new QuestionsDecks();
+   private Jail jail = new Jail();
+   private Board board = new Board();
    
    public GameBetter() {
       for (int i = 0; i < 50; i++) {
@@ -13,64 +15,63 @@ public class GameBetter implements IGame {
    }
 
    public boolean isPlayable() {
-      return (howManyPlayers() >= 2);
+      return (players.count() >= 2);
    }
 
    public boolean add(String playerName) {
-      gameControl.addPlayer(new Player(playerName));
+      players.includePlayer(new Player(playerName));
 
       System.out.println(playerName + " was added");
-      System.out.println("They are player number " + gameControl.numberOfPlayers());
+      System.out.println("They are player number " + players.count());
       return true;
    }
 
-   public int howManyPlayers() {
-      return gameControl.numberOfPlayers();
-   }
-
    public void roll(int roll) {
-      gameControl.printCurrentPlayer();
+      System.out.println(players.getActive() + " is the current player");
       System.out.println("They have rolled a " + roll);
 
-      if (gameControl.isCurrentUserInPenaltyBox() && roll % 2 != 0) {
-            gameControl.letCurrentUserOutFromPenaltyBox();
-         } else if (gameControl.isCurrentUserInPenaltyBox()) {
-            gameControl.currentUserStaysInPenaltyBox();
+      if (jail.hasImprisoned(players.getActive())) {
+         jail.tryToGetOut(players.getActive(), roll);
+         if (jail.hasImprisoned(players.getActive())) {
+            return;
          }
-
-      if (!gameControl.isCurrentUserInPenaltyBox()){
-         gameControl.moveCurrentUserFor(roll);
-         System.out.println("The category is " + currentCategory());
-         askQuestion();
       }
 
+      players.getActive().moveFor(roll);
+      askQuestion();
    }
 
    private void askQuestion() {
-      questionsDecks.pullQuestion(currentCategory());
+      String category = currentCategory();
+      System.out.println("The category is " + category);
+      questionsDecks.pullQuestionInCategory(category);
    }
 
    private String currentCategory() {
-      int placeOnBoard = gameControl.getCurrentUserPosition();
+      int placeOnBoard = players.getActive().getPositionOnBoard();
       return board.getCategoryInPlace(placeOnBoard);
    }
 
    public boolean wasCorrectlyAnswered() {
-      boolean winner = true;
-      if (!gameControl.isCurrentUserInPenaltyBox()) {
+      boolean notAWinner = true;
+      if (!jail.hasImprisoned(players.getActive())) {
          System.out.println("Answer was correct!!!!");
-         gameControl.addPursesToCurrentUser();
+         players.getActive().getsCoin();
 
-         winner = gameControl.didPlayerWin();
+         notAWinner = !isActivePlayerAWinner();
       }
-      gameControl.handDiceToTheNextPlayer(gameControl.numberOfPlayers());
-      return winner;
+      players.nextPlayer();
+      return notAWinner;
+   }
+
+   private boolean isActivePlayerAWinner() {
+      return players.getActive().getCoins() == WINNING_COINS;
    }
 
    public boolean wrongAnswer() {
       System.out.println("Question was incorrectly answered");
-      gameControl.sendCurrentUserToPenaltyBox();
-      gameControl.handDiceToTheNextPlayer(gameControl.numberOfPlayers());
+      jail.imprison(players.getActive());
+      players.nextPlayer();
       return true;
    }
 
