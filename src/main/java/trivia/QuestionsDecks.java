@@ -1,30 +1,44 @@
 package trivia;
 
-import java.util.LinkedList;
+import java.util.*;
 
 public class QuestionsDecks {
 
-  LinkedList popQuestions = new LinkedList();
-  LinkedList scienceQuestions = new LinkedList();
-  LinkedList sportsQuestions = new LinkedList();
-  LinkedList rockQuestions = new LinkedList();
+  private Map<String, Deck> decks = new HashMap<>();
+  private String[] availableCategories = {"Pop", "Science", "Sports", "Rock"};
 
-  void createQuestions(int i) {
-     popQuestions.addLast("Pop Question " + i);
-     scienceQuestions.addLast(("Science Question " + i));
-     sportsQuestions.addLast(("Sports Question " + i));
-     rockQuestions.addLast("Rock Question " + i);
+  public QuestionsDecks() {
+    Arrays.stream(availableCategories)
+            .forEach(category -> decks.put(category, new Deck(category)));
   }
 
-  public void pullQuestionInCategory(String currentCategory) {
-    if (currentCategory == "Pop")
-      System.out.println(popQuestions.removeFirst());
-    if (currentCategory == "Science")
-      System.out.println(scienceQuestions.removeFirst());
-    if (currentCategory == "Sports")
-      System.out.println(sportsQuestions.removeFirst());
-    if (currentCategory == "Rock")
-      System.out.println(rockQuestions.removeFirst());
+  public void createThisManyQuestions(int numberOfQuestions) {
+    decks.forEach(((category, deck) -> deck.createQuestions(numberOfQuestions)));
+  }
+
+  public void pullQuestionFromCategory(String category) {
+    Deck deck = decks.get(category);
+    deck.pullQuestion();
+  }
+
+  private class Deck {
+    private String category;
+    private LinkedList questions = new LinkedList();
+
+    public Deck(String category) {
+      this.category = category;
+    }
+
+    public void createQuestions(int numberOfQuestions) {
+      for (int i = 0; i < numberOfQuestions; i++) {
+        questions.addLast(category + " Question " + i);
+      }
+    }
+
+    public void pullQuestion() {
+        System.out.println(questions.removeFirst());
+    }
+
   }
 
 }

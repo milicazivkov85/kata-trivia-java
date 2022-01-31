@@ -1,14 +1,8 @@
 package trivia;
 
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Set;
-
 public class Board {
 
   private static final int TOTAL_PLACES = 12;
-
-  private Map<Integer, Set<Player>> places = new HashMap<>();
 
   public static int move(int position, int roll) {
     position += roll;

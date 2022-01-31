@@ -9,9 +9,7 @@ public class GameBetter implements IGame {
    private Board board = new Board();
    
    public GameBetter() {
-      for (int i = 0; i < 50; i++) {
-         questionsDecks.createQuestions(i);
-      }
+      questionsDecks.createThisManyQuestions(50);
    }
 
    public boolean isPlayable() {
@@ -44,7 +42,7 @@ public class GameBetter implements IGame {
    private void askQuestion() {
       String category = currentCategory();
       System.out.println("The category is " + category);
-      questionsDecks.pullQuestionInCategory(category);
+      questionsDecks.pullQuestionFromCategory(category);
    }
 
    private String currentCategory() {
