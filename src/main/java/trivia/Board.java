@@ -12,16 +12,16 @@ public class Board {
     return position;
   }
 
-  public String getCategoryInPlace(int placeOnBoard) {
-    if (placeOnBoard == 0) return "Pop";
-    if (placeOnBoard == 4) return "Pop";
-    if (placeOnBoard == 8) return "Pop";
-    if (placeOnBoard == 1) return "Science";
-    if (placeOnBoard == 5) return "Science";
-    if (placeOnBoard == 9) return "Science";
-    if (placeOnBoard == 2) return "Sports";
-    if (placeOnBoard == 6) return "Sports";
-    if (placeOnBoard == 10) return "Sports";
-    return "Rock";
+  public TriviaCategory getCategoryInPlace(int placeOnBoard) {
+    if (placeOnBoard == 0) return TriviaCategory.POP;
+    if (placeOnBoard == 4) return TriviaCategory.POP;
+    if (placeOnBoard == 8) return TriviaCategory.POP;
+    if (placeOnBoard == 1) return TriviaCategory.SCIENCE;
+    if (placeOnBoard == 5) return TriviaCategory.SCIENCE;
+    if (placeOnBoard == 9) return TriviaCategory.SCIENCE;
+    if (placeOnBoard == 2) return TriviaCategory.SPORTS;
+    if (placeOnBoard == 6) return TriviaCategory.SPORTS;
+    if (placeOnBoard == 10) return TriviaCategory.SPORTS;
+    return TriviaCategory.ROCK;
   }
 }

@@ -40,12 +40,12 @@ public class GameBetter implements IGame {
    }
 
    private void askQuestion() {
-      String category = currentCategory();
+      TriviaCategory category = currentCategory();
       System.out.println("The category is " + category);
       questionsDecks.pullQuestionFromCategory(category);
    }
 
-   private String currentCategory() {
+   private TriviaCategory currentCategory() {
       int placeOnBoard = players.getActive().getPositionOnBoard();
       return board.getCategoryInPlace(placeOnBoard);
    }

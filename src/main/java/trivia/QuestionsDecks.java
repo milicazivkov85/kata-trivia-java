@@ -2,13 +2,14 @@ package trivia;
 
 import java.util.*;
 
+import static java.util.Arrays.stream;
+
 public class QuestionsDecks {
 
-  private Map<String, Deck> decks = new HashMap<>();
-  private String[] availableCategories = {"Pop", "Science", "Sports", "Rock"};
+  private Map<TriviaCategory, Deck> decks = new HashMap<>();
 
   public QuestionsDecks() {
-    Arrays.stream(availableCategories)
+    stream(TriviaCategory.values())
             .forEach(category -> decks.put(category, new Deck(category)));
   }
 
@@ -16,16 +17,16 @@ public class QuestionsDecks {
     decks.forEach(((category, deck) -> deck.createQuestions(numberOfQuestions)));
   }
 
-  public void pullQuestionFromCategory(String category) {
+  public void pullQuestionFromCategory(TriviaCategory category) {
     Deck deck = decks.get(category);
     deck.pullQuestion();
   }
 
   private class Deck {
-    private String category;
+    private TriviaCategory category;
     private LinkedList questions = new LinkedList();
 
-    public Deck(String category) {
+    public Deck(TriviaCategory category) {
       this.category = category;
     }
 
