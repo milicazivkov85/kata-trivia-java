@@ -8,13 +8,13 @@ public class QuestionsDecks {
 
   private Map<TriviaCategory, Deck> decks = new HashMap<>();
 
-  public QuestionsDecks() {
-    stream(TriviaCategory.values())
-            .forEach(category -> decks.put(category, new Deck(category)));
-  }
-
   public void createThisManyQuestions(int numberOfQuestions) {
-    decks.forEach(((category, deck) -> deck.createQuestions(numberOfQuestions)));
+    stream(TriviaCategory.values())
+            .forEach(category -> {
+              Deck deck = new Deck(category);
+              deck.createThisManyQuestions(numberOfQuestions);
+              decks.put(category, deck);
+            });
   }
 
   public void pullQuestionFromCategory(TriviaCategory category) {
@@ -23,6 +23,7 @@ public class QuestionsDecks {
   }
 
   private class Deck {
+
     private TriviaCategory category;
     private LinkedList questions = new LinkedList();
 
@@ -30,7 +31,7 @@ public class QuestionsDecks {
       this.category = category;
     }
 
-    public void createQuestions(int numberOfQuestions) {
+    public void createThisManyQuestions(int numberOfQuestions) {
       for (int i = 0; i < numberOfQuestions; i++) {
         questions.addLast(category + " Question " + i);
       }
